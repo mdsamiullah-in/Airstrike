@@ -1,0 +1,133 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('vecteezy_planet-game-background_11558334.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.aero {
+    width: 100px;
+    position: absolute;
+    top: 10%;
+    cursor: crosshair;
+}
+
+
+
+@keyframes anim {
+    0% {
+        right: 0%;
+    }
+    100% {
+        right: 100%;
+    }
+}
+
+
+.fixed{
+    position: fixed;
+}
+
+
+#score, #highScore{
+    color: white;
+    font-size: 20px;
+}
+
+#scoreBox{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+#hunter{
+    width: 50px;
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+}
+
+
+#gun{
+    position: absolute;
+    left: 10px;
+    bottom: 20px;
+   rotate: -30deg;
+}
+
+
+
+
+#launcher {
+    position: fixed;
+     width: 170px;
+    transition: transform 0.01s ease;
+    position: absolute;
+    bottom: 30px;
+    left: 50px;
+}
+
+
+
+
+
+
+
+
+#bullet {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    /* border-radius: 50%; */
+    display: none;
+    transition: 0.1ms;
+    left: 300px;
+}
+
+
+#bom{
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(red, black);
+    border-radius: 50%;
+}
+
+
+
+
+#launcher {
+position: fixed;
+bottom: 0px;
+left: 0px;
+}
+
+
+
+
+#launchBox {
+    position: relative;
+}
+
+#score{
+    color: rgb(255, 136, 0);
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #bullet {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            display: none;
+        }
+
+        #launcher {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+        }
+
+        #mis {
+            position: absolute;
+            transform-origin: center bottom;
+        }
+
+        #scoreBox {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        #score, #highScore {
+            font-size: 20px;
+        }
+
+        #launchBox {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scoreBox">
+        <div id="score">0</div>
+        <div id="highScore">0</div>
+    </div>
+
+    <div id="launchBox">
+        <img src="rocket_launcher-removebg-preview (1).png" id="launcher" width="250px">
+        <img src="missile_launcher_2-removebg-preview.png" width="50px" id="mis">
+    </div>
+
+    <div id="bullet"></div>
+
+<script>
+    const launcher = document.getElementById('launcher');
+    const missile = document.getElementById('mis');
+    const bullet = document.getElementById('bullet');
+
+    document.addEventListener('mousemove', function(event) {
+        const launcherRect = launcher.getBoundingClientRect();
+        const launcherCenterX = launcherRect.left + launcherRect.width / 2;
+        const launcherCenterY = launcherRect.top + launcherRect.height / 2;
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+        const angle = Math.atan2(mouseY - launcherCenterY, mouseX - launcherCenterX);
+        const angleDegrees = angle * (180 / Math.PI);
+        launcher.style.transform = `rotate(${angleDegrees}deg)`;
+        missile.style.transform = `rotate(${angleDegrees}deg)`;
+    });
+
+    document.addEventListener('click', function(event) {
+        const launcherRect = launcher.getBoundingClientRect();
+        const angleRadians = parseFloat(launcher.style.transform.match(/rotate\(([-\d.]+)deg\)/)[1]) * (Math.PI / 180);
+        const missileEndX = launcherRect.left + launcherRect.width / 2 + Math.cos(angleRadians) * (launcherRect.height / 2);
+        const missileEndY = launcherRect.top + launcherRect.height / 2 + Math.sin(angleRadians) * (launcherRect.height / 2);
+
+        bullet.style.left = `${missileEndX}px`;
+        bullet.style.top = `${missileEndY}px`;
+        bullet.style.display = 'block';
+
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+        const angle = Math.atan2(mouseY - missileEndY, mouseX - missileEndX);
+        const speed = 5; // Speed of the bullet
+        const velocityX = Math.cos(angle) * speed;
+        const velocityY = Math.sin(angle) * speed;
+
+        function moveBullet() {
+            const currentX = parseFloat(bullet.style.left);
+            const currentY = parseFloat(bullet.style.top);
+            bullet.style.left = `${currentX + velocityX}px`;
+            bullet.style.top = `${currentY + velocityY}px`;
+
+            if (
+                currentX + velocityX > window.innerWidth || currentX + velocityX < 0 ||
+                currentY + velocityY > window.innerHeight || currentY + velocityY < 0
+            ) {
+                bullet.style.display = 'none';
+            } else {
+                requestAnimationFrame(moveBullet);
+            }
+        }
+
+        moveBullet();
+    });
+</script>
+</body>
+</html>
